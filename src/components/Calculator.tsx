@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { factorial } from '../utils/factorial';
 import { fizzBuzz } from '../utils/fizzbuzz';
+import { fibonacci } from '../utils/fibonacci';
 
 export default function Calculator() {
   const [number, setNumber] = useState<string>('');
   const [result, setResult] = useState<string>('');
-  const [calcType, setCalcType] = useState<'factorial' | 'fizzbuzz'>('factorial');
+  const [calcType, setCalcType] = useState<'factorial' | 'fizzbuzz' | 'fibonacci'>('factorial');
 
   const handleCalculate = () => {
     const num = parseInt(number);
@@ -19,8 +20,10 @@ export default function Calculator() {
     try {
       if (calcType === 'factorial') {
         setResult(`Factorial: ${factorial(num)}`);
-      } else {
+      } else if (calcType === 'fizzbuzz') {
         setResult(`FizzBuzz: ${fizzBuzz(num)}`);
+      } else {
+        setResult(`Fibonacci: ${fibonacci(num)}`);
       }
     } catch (error) {
       setResult((error as Error).message);
@@ -30,7 +33,7 @@ export default function Calculator() {
   return (
     <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
       <div className="space-y-4">
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
           <button
             className={`px-4 py-2 rounded ${
               calcType === 'factorial'
@@ -50,6 +53,16 @@ export default function Calculator() {
             onClick={() => setCalcType('fizzbuzz')}
           >
             FizzBuzz
+          </button>
+          <button
+            className={`px-4 py-2 rounded ${
+              calcType === 'fibonacci'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-200 dark:bg-gray-700'
+            }`}
+            onClick={() => setCalcType('fibonacci')}
+          >
+            Fibonacci
           </button>
         </div>
 
